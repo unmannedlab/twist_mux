@@ -24,7 +24,7 @@
 
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
-#include <geometry_msgs/Twist.h>
+#include <golfcart_msgs/AckCmd.h>
 
 #include <list>
 
@@ -57,7 +57,7 @@ public:
 
   bool hasPriority(const VelocityTopicHandle& twist);
 
-  void publishTwist(const geometry_msgs::TwistConstPtr& msg);
+  void publishTwist(const golfcart_msgs::AckCmdConstPtr& msg);
 
   void updateDiagnostics(const ros::TimerEvent& event);
 
@@ -84,7 +84,7 @@ protected:
 
   ros::Publisher cmd_pub_;
 
-  geometry_msgs::Twist last_cmd_;
+  golfcart_msgs::AckCmd last_cmd_;
 
   template<typename T>
   void getTopicHandles(ros::NodeHandle& nh, ros::NodeHandle& nh_priv, const std::string& param_name, std::list<T>& topic_hs);

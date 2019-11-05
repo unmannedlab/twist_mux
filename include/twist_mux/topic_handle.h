@@ -24,7 +24,7 @@
 
 #include <ros/ros.h>
 #include <std_msgs/Bool.h>
-#include <geometry_msgs/Twist.h>
+#include <golfcart_msgs/AckCmd.h>
 
 #include <twist_mux/utils.h>
 #include <twist_mux/twist_mux.h>
@@ -139,10 +139,10 @@ protected:
   T msg_;
 };
 
-class VelocityTopicHandle : public TopicHandle_<geometry_msgs::Twist>
+class VelocityTopicHandle : public TopicHandle_<golfcart_msgs::AckCmd>
 {
 private:
-  typedef TopicHandle_<geometry_msgs::Twist> base_type;
+  typedef TopicHandle_<golfcart_msgs::AckCmd> base_type;
 
 public:
   typedef typename base_type::priority_type priority_type;
@@ -158,7 +158,7 @@ public:
     return hasExpired() or (getPriority() < lock_priority);
   }
 
-  void callback(const geometry_msgs::TwistConstPtr& msg)
+  void callback(const golfcart_msgs::AckCmdConstPtr& msg)
   {
     stamp_ = ros::Time::now();
     msg_   = *msg;

@@ -33,13 +33,13 @@
  * @param new_twist New velocity
  * @return true is any of the absolute velocity components has increased
  */
-bool hasIncreasedAbsVelocity(const geometry_msgs::Twist& old_twist, const geometry_msgs::Twist& new_twist)
+bool hasIncreasedAbsVelocity(const golfcart_msgs::AckCmd& old_twist, const golfcart_msgs::AckCmd& new_twist)
 {
-  const auto old_linear_x = std::abs(old_twist.linear.x);
-  const auto new_linear_x = std::abs(new_twist.linear.x);
+  const auto old_linear_x = std::abs(old_twist.speed);
+  const auto new_linear_x = std::abs(new_twist.speed);
 
-  const auto old_angular_z = std::abs(old_twist.angular.z);
-  const auto new_angular_z = std::abs(new_twist.angular.z);
+  const auto old_angular_z = std::abs(old_twist.curvature);
+  const auto new_angular_z = std::abs(new_twist.curvature);
 
   return (old_linear_x  < new_linear_x ) or
          (old_angular_z < new_angular_z);
@@ -60,7 +60,7 @@ TwistMux::TwistMux(int window_size)
   getTopicHandles(nh, nh_priv, "locks" , *lock_hs_ );
 
   /// Publisher for output topic:
-  cmd_pub_ = nh.advertise<geometry_msgs::Twist>("cmd_vel_out", 1);
+  cmd_pub_ = nh.advertise<golfcart_msgs::AckCmd>("cmd_vel_out", 1);
 
   /// Diagnostics:
   diagnostics_ = boost::make_shared<diagnostics_type>();
@@ -80,7 +80,7 @@ void TwistMux::updateDiagnostics(const ros::TimerEvent& event)
   diagnostics_->updateStatus(status_);
 }
 
-void TwistMux::publishTwist(const geometry_msgs::TwistConstPtr& msg)
+void TwistMux::publishTwist(const golfcart_msgs::AckCmdConstPtr& msg)
 {
   cmd_pub_.publish(*msg);
 }

@@ -19,7 +19,7 @@
  */
 
 #include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
+#include <golfcart_msgs/AckCmd.h>
 #include <visualization_msgs/Marker.h>
 #include <visualization_msgs/MarkerArray.h>
 
@@ -58,18 +58,11 @@ public:
     marker_.color.b = 0.0;
   }
 
-  void update(const geometry_msgs::Twist& twist)
+  void update(const golfcart_msgs::AckCmd& twist)
   {
-    marker_.points[1].x = twist.linear.x;
+    marker_.points[1].x = twist.speed;
+    marker_.points[1].y = twist.curvature;
 
-    if (fabs(twist.linear.y) > fabs(twist.angular.z))
-    {
-      marker_.points[1].y = twist.linear.y;
-    }
-    else
-    {
-      marker_.points[1].y = twist.angular.z;
-    }
   }
 
   const visualization_msgs::Marker& getMarker()
@@ -98,7 +91,7 @@ public:
     sub_ = nh.subscribe("twist", 1, &TwistMarkerPublisher::callback, this);
   }
 
-  void callback(const geometry_msgs::TwistConstPtr& twist)
+  void callback(const golfcart_msgs::AckCmdConstPtr& twist)
   {
     marker_.update(*twist);
 

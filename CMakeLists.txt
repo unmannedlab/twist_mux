@@ -6,6 +6,7 @@ find_package(catkin REQUIRED
       roscpp
       std_msgs
       geometry_msgs
+      golfcart_msgs
       visualization_msgs
       diagnostic_updater)
 
